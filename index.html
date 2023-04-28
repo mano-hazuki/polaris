@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg"/>
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="src/styles/reset.css">
+    <link rel="stylesheet" type="text/css" href="./src/styles/common.css">
+    <link rel="stylesheet" type="text/css" href="./src/styles/scene/title.css">
+    <link rel="stylesheet" type="text/css" href="./src/styles/scene/menu.css">
+    <link rel="stylesheet" type="text/css" href="./src/styles/scene/game.css">
+    <link rel="stylesheet" type="text/css" href="./src/styles/scene/settings.css">
+    <link rel="stylesheet" type="text/css" href="./src/styles/scene/result.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;200;300;400;500&display=swap"
+          rel="stylesheet">
+
+    <!-- Title -->
+    <title>Polaris</title>
+</head>
+
+<body>
+
+<!-- Title Scene -->
+<div id="title_scene">
+    <div id="title_scene_contents">
+        <h1 id="title_scene_title">Polaris</h1>
+        <button id="title_scene_button_continue">Continue</button>
+    </div>
+    <ol id="title_scene_status">
+        <li id="title_scene_status_fullscreen">
+            <div id="title_scene_status_fullscreen_check" class="title_scene_status_check check_disabled"></div>
+            <div class="title_scene_status_text">Enable fullscreen</div>
+        </li>
+        <li id="title_scene_status_audio">
+            <div id="title_scene_status_audio_check" class="title_scene_status_check check_disabled"></div>
+            <div class="title_scene_status_text">Initialize audio</div>
+        </li>
+        <li id="title_scene_status_load_settings">
+            <div id="title_scene_status_load_settings_check" class="title_scene_status_check check_disabled"></div>
+            <div class="title_scene_status_text">Load local settings</div>
+        </li>
+    </ol>
+</div>
+
+<!-- Menu Scene -->
+<div id="menu_scene">
+    <h1 id="menu_scene_title">Game Menu</h1>
+    <div id="menu_scene_buttons">
+        <button id="menu_scene_button_play" class="menu_scene_button">
+            <img class="menu_scene_button_icon" src="assets/images/play.png" alt=""/>
+            <span class="menu_scene_button_text">PLAY</span>
+        </button>
+        <button id="menu_scene_button_settings" class="menu_scene_button">
+            <img class="menu_scene_button_icon" src="assets/images/settings.png" alt=""/>
+            <span class="menu_scene_button_text">SETTINGS</span>
+        </button>
+    </div>
+    <div id="menu_scene_modal_play_wrapper">
+        <div id="menu_scene_modal_play">
+            <button id="menu_scene_modal_play_button_close" type="button"></button>
+            <div id="menu_scene_modal_play_form_wrapper">
+                <form id="menu_scene_modal_play_form" action="" method="post">
+                    <div class="menu_scene_modal_play_form_item">
+                        <label class="menu_scene_modal_play_form_input_label"
+                               for="menu_scene_modal_play_form_input_url">Music URL</label>
+                        <input id="menu_scene_modal_play_form_input_url" class="menu_scene_modal_play_form_input_text"
+                               type="url" name="music_url" placeholder="https://example.com" pattern="https://.*"
+                               required/>
+                    </div>
+                    <button id="menu_scene_modal_play_form_button_submit" type="submit">PLAY</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Settings Scene -->
+<div id="settings_scene">
+    <div id="settings_scene_header">
+        <button id="settings_scene_header_button_back"></button>
+        <h1 id="settings_scene_header_title">Game Settings</h1>
+    </div>
+
+    <!-- Settings list -->
+    <ol id="settings_scene_setting_items">
+        <!-- Preferences Settings -->
+        <li class="settings_scene_divider">
+            <div class="settings_scene_divider_line"></div>
+            <h2 class="settings_scene_divider_title">Preferences</h2>
+            <div class="settings_scene_divider_line"></div>
+        </li>
+        <li class="settings_scene_setting_item">
+            <label for="settings_scene_setting_lane_speed_value" class="settings_scene_setting_item_name">Lane
+                Speed</label>
+            <div class="settings_scene_setting_slider">
+                <input id="settings_scene_setting_lane_speed_value" type="range" name="Lane Speed" value="5.0" min="1.0"
+                       max="10.0" step="0.1"/>
+                <label for="settings_scene_setting_lane_speed_value" id="settings_scene_setting_lane_speed_label"
+                       class="settings_scene_setting_item_label">1.0</label>
+            </div>
+        </li>
+
+        <!-- Audio Settings -->
+        <li class="settings_scene_divider">
+            <div class="settings_scene_divider_line"></div>
+            <h2 class="settings_scene_divider_title">Audio</h2>
+            <div class="settings_scene_divider_line"></div>
+        </li>
+        <li class="settings_scene_setting_item">
+            <label for="settings_scene_setting_volume_master_value" class="settings_scene_setting_item_name">Master
+                Volume</label>
+            <div class="settings_scene_setting_slider">
+                <input id="settings_scene_setting_volume_master_value" type="range" name="Master Volume" value="100"
+                       min="0" max="100" step="1"/>
+                <label for="settings_scene_setting_volume_master_value" id="settings_scene_setting_volume_master_label"
+                       class="settings_scene_setting_item_label">100</label>
+            </div>
+        </li>
+        <li class="settings_scene_setting_item">
+            <label for="settings_scene_setting_volume_music_value" class="settings_scene_setting_item_name">Music
+                Volume</label>
+            <div class="settings_scene_setting_slider">
+                <input id="settings_scene_setting_volume_music_value" type="range" name="Music Volume" value="100"
+                       min="0" max="100" step="1"/>
+                <label for="settings_scene_setting_volume_music_value" id="settings_scene_setting_volume_music_label"
+                       class="settings_scene_setting_item_label">100</label>
+            </div>
+        </li>
+        <li class="settings_scene_setting_item">
+            <label for="settings_scene_setting_volume_background_music_value" class="settings_scene_setting_item_name">Background
+                Music Volume</label>
+            <div class="settings_scene_setting_slider">
+                <input id="settings_scene_setting_volume_background_music_value" type="range"
+                       name="Background Music Volume" value="100" min="0" max="100" step="1"/>
+                <label for="settings_scene_setting_volume_background_music_value"
+                       id="settings_scene_setting_volume_background_music_label"
+                       class="settings_scene_setting_item_label">100</label>
+            </div>
+        </li>
+        <li class="settings_scene_setting_item">
+            <label for="settings_scene_setting_volume_se_value" class="settings_scene_setting_item_name">SE
+                Volume</label>
+            <div class="settings_scene_setting_slider">
+                <input id="settings_scene_setting_volume_se_value" type="range" name="SE Volume" value="100" min="0"
+                       max="100" step="1"/>
+                <label for="settings_scene_setting_volume_se_value" id="settings_scene_setting_volume_se_label"
+                       class="settings_scene_setting_item_label">100</label>
+            </div>
+        </li>
+    </ol>
+</div>
+
+<!-- Game Scene -->
+<div id="game_scene">
+    <!-- Header -->
+    <audio id="game_scene_audio_music" src=""></audio>
+
+    <div id="game_scene_header">
+        <div id="game_scene_button_back_wrapper">
+            <button id="game_scene_button_back" type="button" hidden>BACK</button>
+        </div>
+
+        <div id="game_scene_combo">
+            <div id="game_scene_combo_number">100</div>
+            <div id="game_scene_combo_label">COMBO</div>
+        </div>
+
+        <div id="game_scene_accuracy">
+            <div id="game_scene_accuracy_number">100.0</div>
+            <div id="game_scene_accuracy_label">%</div>
+        </div>
+    </div>
+
+    <!-- Lane -->
+    <div id="game_scene_lane">
+        <div id="game_scene_lane_effect_left" class="game_scene_lane_effect"></div>
+        <img id="game_scene_lane_judge_area" src="assets/images/note_base.png" alt=""/>
+        <div id="game_scene_lane_effect_right" class="game_scene_lane_effect"></div>
+        <div id="game_scene_lane_notes"></div>
+    </div>
+
+    <!-- Footer -->
+    <div id="game_scene_footer">
+        <div id="game_scene_judge_state"></div>
+        <div id="game_scene_difficulty">
+            <div id="game_scene_difficulty_label">Lv.</div>
+            <div id="game_scene_difficulty_number">10</div>
+        </div>
+    </div>
+
+    <div id="game_scene_modal_pause_wrapper">
+        <div id="game_scene_modal_pause">
+            <h1 id="game_scene_modal_pause_title">Game Paused</h1>
+            <div id="game_scene_modal_pause_buttons">
+                <button id="game_scene_modal_pause_button_resume" class="game_scene_modal_pause_button" type="button">
+                    Resume
+                </button>
+                <button id="game_scene_modal_pause_button_quit" class="game_scene_modal_pause_button" type="button">
+                    Quit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Result Scene -->
+<div id="result_scene">
+    <div id="result_scene_header">
+        <h1>Game Result</h1>
+    </div>
+    <div id="result_scene_main">
+        <div id="result_scene_main_results">
+            <ol id="result_scene_main_results_counts">
+                <li id="result_scene_main_count_perfect">
+                    <h2>Perfect: </h2>
+                    <h2 id="result_scene_main_count_perfect_number"></h2>
+                </li>
+                <li id="result_scene_main_count_good">
+                    <h2>Good: </h2>
+                    <h2 id="result_scene_main_count_good_number"></h2>
+                </li>
+                <li id="result_scene_main_count_miss">
+                    <h2>Miss: </h2>
+                    <h2 id="result_scene_main_count_miss_number"></h2>
+                </li>
+            </ol>
+            <ol id="result_scene_main_results_others">
+                <li id="result_scene_main_count_max_combo">
+                    <h2>Max Combo: </h2>
+                    <h2 id="result_scene_main_count_max_combo_number"></h2>
+                </li>
+                <li id="result_scene_main_accuracy">
+                    <h2>Accuracy: </h2>
+                    <h2 id="result_scene_main_accuracy_number"></h2>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div id="result_scene_footer"></div>
+</div>
+
+<script type="module" src="src/scripts/dist/bundle.js"></script>
+</body>
+</html>

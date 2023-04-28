@@ -1,0 +1,43 @@
+{
+  "name": "This is a song title",
+  "musicFile": "assets/sounds/sample.mp3",
+  "level": 10,
+  "notes": [
+    {
+      "id": 1,
+      "type": "single",
+      "side": "left",
+      "timing": 3000
+    },
+    {
+      "id": 2,
+      "type": "single",
+      "side": "right",
+      "timing": 4000
+    },
+    {
+      "id": 3,
+      "type": "single",
+      "side": "right",
+      "timing": 5000
+    },
+    {
+      "id": 4,
+      "type": "single",
+      "side": "left",
+      "timing": 6000
+    },
+    {
+      "id": 5,
+      "type": "single",
+      "side": "right",
+      "timing": 7500
+    },
+    {
+      "id": 6,
+      "type": "single",
+      "side": "left",
+      "timing": 8000
+    }
+  ]
+}
