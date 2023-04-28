@@ -58,7 +58,7 @@ export class SceneGame extends Scene {
 
             transitionTo(new SceneResult(this.gameResult));
         });
-        this.initMap("src/map_test.json");
+        this.initMap("src/beatmap.json");
         this.initAudio();
 
         this.gameResult = new GameResult();
