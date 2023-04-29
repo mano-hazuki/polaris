@@ -74,7 +74,7 @@ export class SceneGame extends Scene {
 
             transitionTo(new SceneResult(this.gameResult));
         });
-        this.initMap("src/beatmap.json");
+        this.initMap("src/beatmap_light.json");
         this.initAudio();
 
         this.gameResult = new GameResult();
@@ -96,7 +96,7 @@ export class SceneGame extends Scene {
         this.updateNotePosition();
         this.judgeNotes();
 
-        this.gameResult.accuracy = parseFloat(((this.gameResult.countPerfect + this.gameResult.countGood * 0.5) / (this.gameResult.countPerfect + this.gameResult.countGood + this.gameResult.countMiss)).toFixed(1));
+        this.gameResult.accuracy = parseFloat(((this.gameResult.countPerfect + this.gameResult.countGood * 0.5) / (this.gameResult.countPerfect + this.gameResult.countGood + this.gameResult.countMiss)).toFixed(1)) * 100.0;
         this.numberAccuracy.innerText = isNaN(this.gameResult.accuracy) ? "0" : this.gameResult.accuracy.toString();
         this.numberCombo.innerText = this.combo.toString();
 
