@@ -99,6 +99,7 @@ export class SceneGame extends Scene {
         this.gameResult.accuracy = parseFloat(((this.gameResult.countPerfect + this.gameResult.countGood * 0.5) / (this.gameResult.countPerfect + this.gameResult.countGood + this.gameResult.countMiss)).toFixed(1)) * 100.0;
         this.numberAccuracy.innerText = isNaN(this.gameResult.accuracy) ? "0" : this.gameResult.accuracy.toString();
         this.numberCombo.innerText = this.combo.toString();
+        this.gameResult.maxCombo = this.gameResult.maxCombo < this.combo ? this.combo : this.gameResult.maxCombo;
 
         if (getNow() > this.lastJudgeStateDisplayed + this.judgeStateDuration) {
             this.hideJudgeState();
