@@ -34,7 +34,7 @@ button {
     border-color: rgba(245, 245, 245, 0.4);
 
     backdrop-filter: blur(16px);
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.2);
 
     font-weight: var(--font-weight-extralight);
     font-size: 100%;
@@ -50,7 +50,7 @@ button:hover {
     border-color: rgba(245, 245, 245, 1.0);
 
     backdrop-filter: blur(16px);
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.2);
 
     font-weight: var(--font-weight-light);
     font-size: 100%;

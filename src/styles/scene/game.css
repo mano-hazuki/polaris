@@ -132,6 +132,20 @@
     height: 60%;
 }
 
+#game_scene_lane_notes_left {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+}
+
+#game_scene_lane_notes_right {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+}
+
 .game_scene_lane_note {
     position: absolute;
 
@@ -174,29 +188,6 @@
     margin-top: 24px;
 
     visibility: hidden;
-}
-
-/* Difficulty */
-#game_scene_difficulty {
-    margin-bottom: 20px;
-
-    display: flex;
-    flex-direction: row;
-    justify-items: center;
-    align-items: baseline;
-    gap: 4px;
-}
-
-#game_scene_difficulty_label {
-    font-weight: var(--font-weight-light);
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 1);
-}
-
-#game_scene_difficulty_number {
-    font-weight: var(--font-weight-regular);
-    font-size: 1.5rem;
-    color: rgba(255, 255, 255, 1);
 }
 
 #game_scene_modal_pause_wrapper {

@@ -17,6 +17,9 @@ export class SceneGame extends Scene {
     private buttonQuit: HTMLButtonElement = document.getElementById("game_scene_modal_pause_button_quit")! as HTMLButtonElement;
     private labelJudgeState: HTMLDivElement = document.getElementById("game_scene_judge_state")! as HTMLDivElement;
     private audioMusic: HTMLAudioElement = document.getElementById("game_scene_audio_music")! as HTMLAudioElement;
+    private numberCombo: HTMLDivElement = document.getElementById("game_scene_combo_number")! as HTMLDivElement;
+    private notesWrapper: HTMLDivElement = document.getElementById("game_scene_lane_notes")! as HTMLDivElement;
+    private numberAccuracy: HTMLDivElement = document.getElementById("game_scene_accuracy_number")! as HTMLDivElement;
 
     /* Game Variables */
     private gameState: GameState = GameState.INITIALIZING;
@@ -33,15 +36,20 @@ export class SceneGame extends Scene {
 
     /* Delays in milliseconds */
     private rangePerfect: number = 40;
-    private rangeGood: number = 100;
-    private rangeJudge: number = 150;
+    private rangeGood: number = 80;
+    private rangeJudge: number = 120;
 
     private lastJudgeStateDisplayed: number = 0;
     private judgeStateDuration: number = 1000;
 
+    private combo: number = 0;
+
+    private generatedNoteIds: number[] = [];
+
     private gameResult: GameResult | null = null;
 
     onInit(): void {
+        this.gameState = GameState.INITIALIZING;
         this.sceneGame.style.display = "flex";
 
         this.buttonResume.addEventListener("click", (): void => {
@@ -62,6 +70,7 @@ export class SceneGame extends Scene {
         this.initAudio();
 
         this.gameResult = new GameResult();
+        this.combo = 0;
     }
 
     onRender(): void {
@@ -71,8 +80,16 @@ export class SceneGame extends Scene {
         if (this.gameState != GameState.PLAYING) {
             return;
         }
+        if (this.gameResult == null) {
+            return;
+        }
+        this.generateNotes();
         this.updateNotePosition();
         this.judgeNotes();
+
+        this.gameResult.accuracy = parseFloat(((this.gameResult.countPerfect + this.gameResult.countGood * 0.5) / (this.gameResult.countPerfect + this.gameResult.countGood + this.gameResult.countMiss)).toFixed(1));
+        this.numberAccuracy.innerText = isNaN(this.gameResult.accuracy) ? "0" : this.gameResult.accuracy.toString();
+        this.numberCombo.innerText = this.combo.toString();
 
         if (getNow() > this.lastJudgeStateDisplayed + this.judgeStateDuration) {
             this.hideJudgeState();
@@ -82,6 +99,8 @@ export class SceneGame extends Scene {
     }
 
     onClosed(): void {
+        this.generatedNoteIds = [];
+        this.gameResult = null;
         this.modalPauseWrapper.style.display = "none";
         this.sceneGame.style.display = "none";
     }
@@ -140,13 +159,14 @@ export class SceneGame extends Scene {
                 return;
             }
             this.audioMusic.src = this.mapData!.musicFile;
+            this.gameState = GameState.READY;
 
-            this.generateNotes().then(() => {
+            /* this.generateNotes().then(() => {
                 this.gameState = GameState.READY;
             }).catch((error) => {
                 this.gameState = GameState.ERROR;
                 console.log(error);
-            });
+            }); */
         });
     }
 
@@ -158,7 +178,41 @@ export class SceneGame extends Scene {
         return await JSON.parse(jsonText) as MapData;
     }
 
-    async generateNotes(): Promise<void> {
+    generateNotes(): void {
+        if (this.mapData == null) {
+            return;
+        }
+        const fps: number = getFramePerSecond();
+        const refreshRate: number = getRefreshRate(fps);
+        const width: number = window.innerWidth;
+        const moveSpeedInSec: number = this.laneSpeed * refreshRate;
+
+        this.mapData.notes.forEach(note => {
+            if (this.generatedNoteIds.includes(note.id)) {
+                return;
+            }
+            const requiredTime: number = ((width / 2) / moveSpeedInSec) * 1000;
+
+            if (getNow() - this.startedTime - this.startDelay < note.timing - requiredTime) {
+                return;
+            }
+            const noteElement: HTMLDivElement = document.createElement("div");
+
+            if (note.side == NoteSide.LEFT) {
+                noteElement.className = "game_scene_lane_note game_scene_lane_note_left";
+                noteElement.style.left = "0";
+            } else {
+                noteElement.className = "game_scene_lane_note game_scene_lane_note_right";
+                noteElement.style.right = "0";
+            }
+            noteElement.id = `note_id_${note.id}`;
+            this.notesWrapper.appendChild(noteElement);
+
+            this.generatedNoteIds.push(note.id);
+        });
+    }
+
+    /* async generateNotes(): Promise<void> {
         if (this.mapData == null) {
             return;
         }
@@ -167,24 +221,28 @@ export class SceneGame extends Scene {
         const width: number = window.innerWidth;
         const pixelPerSecond: number = this.laneSpeed * refreshRate;
 
-        for (let note of this.mapData.notes) {
+        this.mapData.notes.forEach(note => {
             const timingSec: number = note.timing / 1000.0;
             const requiredDist: number = ((timingSec + (this.startDelay / 1000.0)) * pixelPerSecond) - (width / 2.0);
 
-            const notesWrapper: HTMLDivElement = document.getElementById("game_scene_lane_notes")! as HTMLDivElement;
             const noteElement: HTMLDivElement = document.createElement("div");
 
-            if (note.side == NoteSide.LEFT) {
+            if (note.side === NoteSide.LEFT) {
+                const notesWrapperLeft: HTMLDivElement = document.getElementById("game_scene_lane_notes_left")! as HTMLDivElement;
+
                 noteElement.className = `game_scene_lane_note game_scene_lane_note_left`
                 noteElement.style.left = `${-requiredDist}px`;
+                notesWrapperLeft.appendChild(noteElement);
             } else {
+                const notesWrapperRight: HTMLDivElement = document.getElementById("game_scene_lane_notes_right")! as HTMLDivElement;
+
                 noteElement.className = `game_scene_lane_note game_scene_lane_note_right`
                 noteElement.style.right = `${-requiredDist}px`;
+                notesWrapperRight.appendChild(noteElement);
             }
             noteElement.id = `note_id_${note.id}`;
-            notesWrapper.appendChild(noteElement);
-        }
-    }
+        });
+    } */
 
     updateNotePosition(): void {
         const notesLeftSide: HTMLCollectionOf<Element> = document.getElementsByClassName("game_scene_lane_note_left");
@@ -212,7 +270,7 @@ export class SceneGame extends Scene {
             return;
         }
         for (let note of this.mapData.notes) {
-            const elem: HTMLElement | null = document.getElementById(`note_id_${note.id}`);
+            const elem: HTMLElement = document.getElementById(`note_id_${note.id}`)! as HTMLElement;
             const now: number = getNow();
             const elapsedTimeInGame: number = now - (this.startedTime + this.startDelay);
 
@@ -221,6 +279,7 @@ export class SceneGame extends Scene {
             }
             if (elapsedTimeInGame > note.timing + this.rangeJudge) {
                 this.gameResult.incrementCountMiss();
+                this.combo = 0;
                 elem.remove();
                 this.showJudgeState(JudgeState.MISS);
             } else {
@@ -246,16 +305,19 @@ export class SceneGame extends Scene {
 
                 if (isPerfect) {
                     this.gameResult.incrementCountPerfect();
+                    this.combo++;
                     elem.remove();
                     this.showJudgeState(JudgeState.PERFECT);
                 }
                 if (isGood) {
                     this.gameResult.incrementCountGood();
+                    this.combo++;
                     elem.remove();
                     this.showJudgeState(JudgeState.GOOD);
                 }
                 if (isMiss) {
                     this.gameResult.incrementCountMiss();
+                    this.combo = 0;
                     elem.remove();
                     this.showJudgeState(JudgeState.MISS);
                 }

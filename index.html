@@ -169,12 +169,12 @@
         </div>
 
         <div id="game_scene_combo">
-            <div id="game_scene_combo_number">100</div>
+            <div id="game_scene_combo_number">0</div>
             <div id="game_scene_combo_label">COMBO</div>
         </div>
 
         <div id="game_scene_accuracy">
-            <div id="game_scene_accuracy_number">100.0</div>
+            <div id="game_scene_accuracy_number">0</div>
             <div id="game_scene_accuracy_label">%</div>
         </div>
     </div>
@@ -190,10 +190,6 @@
     <!-- Footer -->
     <div id="game_scene_footer">
         <div id="game_scene_judge_state"></div>
-        <div id="game_scene_difficulty">
-            <div id="game_scene_difficulty_label">Lv.</div>
-            <div id="game_scene_difficulty_number">10</div>
-        </div>
     </div>
 
     <div id="game_scene_modal_pause_wrapper">
@@ -217,34 +213,48 @@
         <h1>Game Result</h1>
     </div>
     <div id="result_scene_main">
-        <div id="result_scene_main_results">
-            <ol id="result_scene_main_results_counts">
-                <li id="result_scene_main_count_perfect">
-                    <h2>Perfect: </h2>
-                    <h2 id="result_scene_main_count_perfect_number"></h2>
-                </li>
-                <li id="result_scene_main_count_good">
-                    <h2>Good: </h2>
-                    <h2 id="result_scene_main_count_good_number"></h2>
-                </li>
-                <li id="result_scene_main_count_miss">
-                    <h2>Miss: </h2>
-                    <h2 id="result_scene_main_count_miss_number"></h2>
-                </li>
-            </ol>
-            <ol id="result_scene_main_results_others">
-                <li id="result_scene_main_count_max_combo">
-                    <h2>Max Combo: </h2>
-                    <h2 id="result_scene_main_count_max_combo_number"></h2>
-                </li>
-                <li id="result_scene_main_accuracy">
-                    <h2>Accuracy: </h2>
-                    <h2 id="result_scene_main_accuracy_number"></h2>
-                </li>
-            </ol>
+        <ol id="result_scene_main_results">
+            <li id="result_scene_main_count_perfect">
+                <h2 class="result_scene_result_label">Perfect: </h2>
+                <h2 id="result_scene_main_count_perfect_number"></h2>
+            </li>
+            <li id="result_scene_main_count_good">
+                <h2 class="result_scene_result_label">Good: </h2>
+                <h2 id="result_scene_main_count_good_number"></h2>
+            </li>
+            <li id="result_scene_main_count_miss">
+                <h2 class="result_scene_result_label">Miss: </h2>
+                <h2 id="result_scene_main_count_miss_number"></h2>
+            </li>
+            <li id="result_scene_main_count_max_combo">
+                <h2 class="result_scene_result_label">Max Combo: </h2>
+                <h2 id="result_scene_main_count_max_combo_number"></h2>
+            </li>
+            <li id="result_scene_main_accuracy">
+                <h2 class="result_scene_result_label">Accuracy: </h2>
+                <h2 id="result_scene_main_accuracy_number"></h2>
+            </li>
+        </ol>
+    </div>
+    <div id="result_scene_footer">
+        <button id="result_scene_footer_button_return" type="button">Return to menu</button>
+    </div>
+    <div id="result_scene_modal_rate_wrapper">
+        <div id="result_scene_modal_rate">
+            <h2>Rate this map</h2>
+            <div id="result_scene_modal_rate_buttons">
+                <button id="result_scene_modal_rate_button_thumbs_up" class="result_scene_modal_rate_button">
+                    <img id="result_scene_modal_rate_button_thumbs_up_img" src="./assets/images/thumb_up.png" alt=""/>
+                    <span id="result_scene_modal_rate_button_thumbs_up_text">Great!</span>
+                </button>
+                <button id="result_scene_modal_rate_button_thumbs_down" class="result_scene_modal_rate_button">
+                    <img id="result_scene_modal_rate_button_thumbs_down_img" src="./assets/images/thumb_down.png"
+                         alt=""/>
+                    <span id="result_scene_modal_rate_button_thumbs_down_text">Not good...</span>
+                </button>
+            </div>
         </div>
     </div>
-    <div id="result_scene_footer"></div>
 </div>
 
 <script type="module" src="src/scripts/dist/bundle.js"></script>

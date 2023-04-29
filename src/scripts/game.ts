@@ -23,16 +23,14 @@ export class GameResult {
     private _countGood: number;
     private _countMiss: number;
     private _maxCombo: number;
-    private readonly _accuracy: number;
+    private _accuracy: number;
 
     constructor() {
         this._countPerfect = 0;
         this._countGood = 0;
         this._countMiss = 0;
         this._maxCombo = 0;
-
-        const accuracyRaw: number = (this._countPerfect + (this._countGood * 0.5)) / (this._countPerfect + this._countGood + this._countMiss);
-        this._accuracy = parseFloat(accuracyRaw.toFixed(1)); // 小数点第一位で四捨五入
+        this._accuracy = 0;
     }
 
     get countPerfect(): number {
@@ -69,5 +67,9 @@ export class GameResult {
 
     get accuracy(): number {
         return this._accuracy;
+    }
+
+    set accuracy(accuracy: number) {
+        this._accuracy = accuracy;
     }
 }
