@@ -29,4 +29,10 @@ export class SceneSettings extends Scene {
 
     onKeyReleased(e: KeyboardEvent): void {
     }
+
+    onTouchStarted(e: TouchEvent): void {
+    }
+
+    onTouchEnded(e: TouchEvent): void {
+    }
 }

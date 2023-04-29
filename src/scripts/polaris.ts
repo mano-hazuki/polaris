@@ -16,6 +16,12 @@ const init = (): void => {
     document.addEventListener("keyup", (e: KeyboardEvent): void => {
         scene.onKeyReleased(e);
     });
+    document.addEventListener("touchstart", (e: TouchEvent): void => {
+        scene.onTouchStarted(e);
+    });
+    document.addEventListener("touchend", (e: TouchEvent): void => {
+        scene.onTouchEnded(e);
+    });
 };
 
 const render = (): void => {

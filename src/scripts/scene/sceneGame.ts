@@ -146,6 +146,42 @@ export class SceneGame extends Scene {
         }
     }
 
+    onTouchStarted(e: TouchEvent): void {
+        e.preventDefault();
+
+        if (e.touches[0].pageY >= window.innerHeight * 0.44) {
+            if (e.touches[0].pageX <= window.innerWidth / 2.0) {
+                this.laneEffectLeft.style.visibility = "visible";
+                this.hittingLeftNote = true;
+            }
+            if (e.touches[0].pageX >= window.innerWidth / 2.0) {
+                this.laneEffectRight.style.visibility = "visible";
+                this.hittingRightNote = true;
+            }
+        } else {
+            if (this.gameState != GameState.PAUSE) {
+                this.audioMusic.pause();
+                this.gameState = GameState.PAUSE;
+                this.modalPauseWrapper.style.display = "flex";
+            }
+        }
+    }
+
+    onTouchEnded(e: TouchEvent): void {
+        e.preventDefault();
+
+        if (e.touches[0].pageY >= window.innerHeight * 0.44) {
+            if (e.touches[0].pageX <= window.innerWidth / 2.0) {
+                this.laneEffectLeft.style.visibility = "hidden";
+                this.hittingLeftNote = false;
+            }
+            if (e.touches[0].pageX >= window.innerWidth / 2.0) {
+                this.laneEffectRight.style.visibility = "hidden";
+                this.hittingRightNote = false;
+            }
+        }
+    }
+
     initMap(mapJsonUrl: string): void {
         this.loadMap(mapJsonUrl).then(value => {
             this.mapData = new MapData(value.name, value.musicFile, value.level, value.notes);

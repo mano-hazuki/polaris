@@ -8,4 +8,8 @@ export abstract class Scene {
     abstract onKeyPressed(e: KeyboardEvent): void;
 
     abstract onKeyReleased(e: KeyboardEvent): void;
+
+    abstract onTouchStarted(e: TouchEvent): void;
+
+    abstract onTouchEnded(e: TouchEvent): void;
 }

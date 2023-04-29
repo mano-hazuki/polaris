@@ -49,6 +49,12 @@ export class SceneTitle extends Scene {
     onKeyReleased(e: KeyboardEvent): void {
     }
 
+    onTouchStarted(e: TouchEvent): void {
+    }
+
+    onTouchEnded(e: TouchEvent): void {
+    }
+
     async enterFullscreen(): Promise<void> {
         return new Promise<void>((resolve) => {
             setTimeout(() => {
