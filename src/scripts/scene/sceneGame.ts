@@ -1,5 +1,12 @@
 import {Scene} from "./scene";
-import {getFramePerSecond, getNow, getRefreshRate, transitionTo} from "../polaris";
+import {
+    getFramePerSecond,
+    getNow,
+    getRefreshRate,
+    isAudioInitialized,
+    setAudioInitialized,
+    transitionTo
+} from "../polaris";
 import {SceneMenu} from "./sceneMenu";
 import {MapData, NoteSide} from "../map";
 import {GameResult, GameState, JudgeState} from "../game";
@@ -20,6 +27,7 @@ export class SceneGame extends Scene {
     private numberCombo: HTMLDivElement = document.getElementById("game_scene_combo_number")! as HTMLDivElement;
     private notesWrapper: HTMLDivElement = document.getElementById("game_scene_lane_notes")! as HTMLDivElement;
     private numberAccuracy: HTMLDivElement = document.getElementById("game_scene_accuracy_number")! as HTMLDivElement;
+    private messageStart: HTMLDivElement = document.getElementById("game_scene_message_start")! as HTMLDivElement;
 
     /* Game Variables */
     private gameState: GameState = GameState.INITIALIZING;
@@ -71,6 +79,7 @@ export class SceneGame extends Scene {
 
         this.gameResult = new GameResult();
         this.combo = 0;
+        this.messageStart.style.display = "flex";
     }
 
     onRender(): void {
@@ -99,8 +108,12 @@ export class SceneGame extends Scene {
     }
 
     onClosed(): void {
+        while (this.notesWrapper.firstChild) {
+            this.notesWrapper.removeChild(this.notesWrapper.firstChild);
+        }
         this.generatedNoteIds = [];
         this.gameResult = null;
+        this.messageStart.style.display = "none";
         this.modalPauseWrapper.style.display = "none";
         this.sceneGame.style.display = "none";
     }
@@ -119,6 +132,7 @@ export class SceneGame extends Scene {
                 this.audioMusic.play().then(() => {
                     this.gameState = GameState.PLAYING;
                     this.startedTime = getNow();
+                    this.messageStart.style.display = "none";
                 }).catch((error) => {
                     console.log(error.message);
                 });
@@ -362,11 +376,14 @@ export class SceneGame extends Scene {
     }
 
     initAudio(): void {
-        const ctx: AudioContext = audio.getAudioContext();
-        const track: MediaElementAudioSourceNode = ctx.createMediaElementSource(this.audioMusic);
-        const gainNode: GainNode = ctx.createGain();
+        if (!isAudioInitialized()) {
+            const ctx: AudioContext = audio.getAudioContext();
+            const track: MediaElementAudioSourceNode = ctx.createMediaElementSource(this.audioMusic);
+            const gainNode: GainNode = ctx.createGain();
 
-        track.connect(gainNode).connect(ctx.destination);
+            track.connect(gainNode).connect(ctx.destination);
+            setAudioInitialized(true);
+        }
     }
 
     resumeAudio(): Promise<void> {

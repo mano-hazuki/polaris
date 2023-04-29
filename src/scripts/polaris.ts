@@ -6,6 +6,7 @@ let scene: Scene = new SceneTitle();
 let now: number = 0;
 let lastUpdated: number = 0;
 let framePerSecond: number = 0;
+let audioInitialized: boolean = false;
 
 const init = (): void => {
     scene.onInit();
@@ -42,6 +43,12 @@ export const getNow = (): number => now;
 export const getLastUpdated = (): number => lastUpdated;
 
 export const getFramePerSecond = (): number => framePerSecond;
+
+export const isAudioInitialized = (): boolean => audioInitialized;
+
+export const setAudioInitialized = (flag: boolean): void => {
+    audioInitialized = flag;
+}
 
 export const getRefreshRate = (fps: number): number => {
     if (fps > 60 && fps <= 75) {

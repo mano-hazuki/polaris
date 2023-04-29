@@ -190,6 +190,25 @@
     visibility: hidden;
 }
 
+#game_scene_message_start {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    backdrop-filter: blur(16px);
+
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#game_scene_message_start > h1 {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-extralight);
+    color: rgba(255, 255, 255, 1.0);
+}
+
 #game_scene_modal_pause_wrapper {
     position: absolute;
 
